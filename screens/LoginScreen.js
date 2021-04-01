@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React, {useContext, useState } from 'react'
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import SocialButton from '../components/SocialButton';
-
+import { AuthContext } from '../navigation/AuthProvider';
 
 
 const LoginScreen = ({navigation}) => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
+
+    const {login} = useContext(AuthContext);
 
     return (
         <View style={styles.container}>
@@ -28,34 +30,38 @@ const LoginScreen = ({navigation}) => {
             <FormInput 
                 labelValue={password}
                 onChangeText={(userPassword) => setPassword(userPassword)}
-                placeholderText="Email"
+                placeholderText="Password"
                 iconType="lock"
                 secureTextEntry={true}
             />
             <FormButton 
                 buttonTitle="Sing In"
-                onPress={() => alert('Sing In Clicked')}
+                onPress={() => login(email, password)}
             />
             <TouchableOpacity style={styles.forgotButton} onPress={() => alert('Forgot Password Clicked')} >
                 <Text style={styles.navButtonText}>Forgot Password?</Text>
             </TouchableOpacity>
 
             <SocialButton 
-                buttonTitle="Sign up with Facebook"
+                buttonTitle="Sign in with Facebook"
                 btnType="facebook"
                 color="#4867aa"
                 backgroundColor="#e6eaf4"
             />
 
             <SocialButton 
-                buttonTitle="Sign up with Facebook"
+                buttonTitle="Sign in with Google"
                 btnType="google"
                 color="#de4d41"
                 backgroundColor="#f5e7ea"
             />
 
-            <TouchableOpacity style={styles.forgotButton} onPress={() => navigation.navigate("Signup")} >
-                <Text style={styles.navButtonText}>Don't have an acount? Create here!!!</Text>
+            <TouchableOpacity
+                style={styles.forgotButton}
+                onPress={() => navigation.navigate('Signup')}>
+                <Text style={styles.navButtonText}>
+                    Don't have an acount? Create here
+                </Text>
             </TouchableOpacity>
 
         </View>

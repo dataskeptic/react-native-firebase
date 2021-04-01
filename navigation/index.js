@@ -1,10 +1,13 @@
 import React from 'react';
+import { AuthProvider } from './AuthProvider';
 import Routes from './Routes';
 
-function index() {
+function Providers() {
     return (
-        <Routes />
+        <AuthProvider>
+            <Routes />
+        </AuthProvider>
     )
 }
 
-export default index;
+export default Providers;
