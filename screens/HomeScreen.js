@@ -1,31 +1,17 @@
-import React, {useContext} from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import FormButton from '../components/FormButton';
-import { AuthContext } from '../navigation/AuthProvider';
+import React from 'react';
 
-function HomeScreen() {
-    const {user, logout} = useContext(AuthContext);
+import {Container, Card, UserInfo, UserImg} from '../styles/FeedStyles';
+
+function HomeScreen () {
     return (
-        <View style={styles.container}>
-            <Text style={styles.text}>Welcome {user.uid}</Text>
-            <FormButton buttonTitle='Logout' onPress={() => logout()} />
-        </View>
+        <Container>
+            <Card>
+                <UserInfo>
+                    <UserImg source={require('../assets/users/user-3.jpg')}></UserImg>
+                </UserInfo>
+            </Card>
+        </Container>
     )
 }
 
-export default HomeScreen
-
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#f9fafd',
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 20,
-    },
-    text: {
-        fontSize: 20,
-        color: '#333333',
-    },
-
-});
+export default HomeScreen;
