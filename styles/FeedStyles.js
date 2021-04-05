@@ -18,7 +18,6 @@ export const UserInfo = styled.View`
     flex-direction: row;
     justify-content: flex-start;
     padding: 15px;
-    border: 1px solid red;
 `;
 
 export const UserImg = styled.Image`
