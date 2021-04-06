@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View, Text} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -57,9 +57,15 @@ const FeedStack = ({navigation}) => (
         headerBackTitleVisible: false,
         headerBackImage: () => (
           <View style={{marginLeft: 15}}>
-            <FontAwesome5 name="radiation" size={25} color="#2e64e5" />
+            <FontAwesome5 name="arrow-left" size={25} color="#2e64e5" />
           </View>
         ),
+        headerRight: () => (
+          <View style={{marginRight: 15}}>
+            <Text>Post</Text>
+          </View>
+        ),
+        
       }}
     />
     <Stack.Screen
