@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, Text} from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { View } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import HomeScreen from '../screens/HomeScreen';
@@ -60,17 +60,11 @@ const FeedStack = ({navigation}) => (
             <FontAwesome5 name="arrow-left" size={25} color="#2e64e5" />
           </View>
         ),
-        headerRight: () => (
-          <View style={{marginRight: 15}}>
-            <Text>Post</Text>
-          </View>
-        ),
-        
       }}
     />
     <Stack.Screen
-      name="HomeProfile"
       component={ProfileScreen}
+      name="HomeProfile"
       options={{
         title: '',
         headerTitleAlign: 'center',
