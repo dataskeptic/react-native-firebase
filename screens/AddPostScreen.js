@@ -5,6 +5,7 @@ import {
   Platform,
   StyleSheet,
   Alert,
+  ActivityIndicator
 } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -44,13 +45,32 @@ const AddPostScreen = () => {
     const upLoadUri = image;
     let filename = upLoadUri.substring(upLoadUri.lastIndexOf('/') + 1);
 
-    setUploading(true);
+    // Add timeStamp to file name
+    const extension = filename.split('.').pop();
+    const name = filename.split('.').slice(0, -1).join('.');
+    filename =  name + Date.now() + '.' + extension;
 
+    setUploading(true);
+    setTransferred(0);
+
+    const task = storage().ref(filename).putFile(upLoadUri);
+
+    // Set tranferred state
+    task.on('state_changed', taskSnapshot => {
+      console.log(`${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`);
+
+      setTransferred(
+        Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) * 100
+      );
+    });
+ 
     try{
-      await storage().ref(filename).putFile(upLoadUri);
+      await task;
+
       setUploading(false);
       Alert.alert(
         'Image uploaded!',
+        
         'Your image has been uploaded to the Firebase Storage Successufuly!!!'
       )
 
@@ -84,9 +104,16 @@ const AddPostScreen = () => {
           
         />
       
-        <SubmitBtn onPress={submitPost}>
-          <SubmitBtnText>Post</SubmitBtnText>
-        </SubmitBtn>
+      {uploading ? (
+          <StatusWrapper>
+            <Text>{transferred} % Completed!</Text>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </StatusWrapper>
+        ) : (
+          <SubmitBtn onPress={submitPost}>
+            <SubmitBtnText>Post</SubmitBtnText>
+          </SubmitBtn>
+        )}
         
       </InputWrapper>
       <ActionButton buttonColor="#2e64e5">
