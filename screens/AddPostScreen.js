@@ -48,19 +48,25 @@ const AddPostScreen = () => {
   const submitPost = async () => {
     const imageUrl = await uploadImage();
     console.log('Image Url:', imageUrl);
+    console.log('Post: ', post);
 
     firestore()
     .collection('posts')
     .add({
-      userId: user.uuid,
-      post: post,                                             
+      userId: user.uid,
+      post: post,
       postImg: imageUrl,
       postTime: firestore.Timestamp.fromDate(new Date()),
       likes: null,
       comments: null,
     })
     .then(() => {
-      console.log('Post Add');
+      console.log('Post Added!');
+      Alert.alert(
+        'Post published!',
+        'Your post has been published Successfully!',
+      );
+      setPost(null);
     })
     .catch((error) => {
       console.log('Something went wrong with firesore', error);
@@ -97,11 +103,11 @@ const AddPostScreen = () => {
       const url = await storageRef.getDownloadURL();
 
       setUploading(false);
-      Alert.alert(
+      /* Alert.alert(
         'Image uploaded!',
         
         'Your image has been uploaded to the Firebase Storage Successufuly!!!'
-      )
+      ) */
         return url;
     } catch(e) {
       console.log(e);
@@ -132,7 +138,7 @@ const AddPostScreen = () => {
           multiline
           numberOfLines={4}
           value={post}
-          onChange={(content) => setPost(content)}
+          onChangeText={(content) => setPost(content)}
         />
       
       {uploading ? (
