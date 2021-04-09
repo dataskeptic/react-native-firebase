@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { 
@@ -15,8 +15,11 @@ import {
         InteractionWrapper,
         Divider
         } from '../styles/FeedStyles';
+import { AuthContext } from '../navigation/AuthProvider';
 
-const PostCard = ({item}) => {
+const PostCard = ({item, onDelete}) => {
+
+  const {user, logout} = useContext(AuthContext);
 
     let likeIcon = item.liked ? 'heart' : 'heart-o';
     let likeIconColor = item.liked ? '#2e64e5' : '#333';
@@ -59,6 +62,11 @@ const PostCard = ({item}) => {
                         <FontAwesome name="comment-o" size={25}></FontAwesome>
                         <InteractionText>{commentText}</InteractionText>
                     </Interaction>
+                    {user.uid == item.userId ?
+                      <Interaction onPress={() => onDelete(item.id)}>
+                        <FontAwesome name="trash-o" size={25}></FontAwesome>
+                      </Interaction> : null
+                    }
                 </InteractionWrapper>
             </Card>
     )

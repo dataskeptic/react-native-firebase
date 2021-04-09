@@ -3,6 +3,7 @@ import { FlatList } from 'react-native';
 import { Container } from '../styles/FeedStyles';
 import PostCard from '../components/PostCard';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 const Posts = [
     {
@@ -75,6 +76,7 @@ function HomeScreen () {
 
         await firestore()
           .collection('posts')
+          .orderBy('postTime', 'desc')
           .get()
           .then((querySnapShot) => {
             // console.log('Total posts ', querySnapShot.size);
@@ -110,12 +112,45 @@ function HomeScreen () {
     fetchPosts();
   }, []);
 
+  const deletePost = (postId) => {
+    console.log('Current id: ', postId);
+
+    firestore().collection('post')
+    .doc(postId)
+    .get()
+    .then(documentSnapshot => {
+      if(documentSnapshot.exists) {
+        const { postImg} = documentSnapshot.data();
+
+        if( postImg  != null ) {
+          const storageRef = storage().refFromURL(postImg);
+          const imageRef = storage().ref(storageRef.fullPath);
+
+          imageRef
+          .delete()
+          .then(() => {
+            console.log(`${postImg} has been delete!`);
+          })
+          .catch((err) => {
+            console.log('Error while deleting the image: ', err)
+          })
+        }
+      }
+    })
+  }
+
+  const listHeader = () => {
+    return null;
+  } 
+
     return (
         <Container>
             <FlatList  
               data={posts}
-              renderItem={({item}) => <PostCard item={item}/>}
+              renderItem={({item}) => <PostCard item={item} onDelete={deletePost}/>}
               keyExtractor={item => item.id}
+                ListHeaderComponent={listHeader}
+                  ListFooterComponent={listHeader}
               showsVerticalScrollIndicator={false}
             />
         </Container>

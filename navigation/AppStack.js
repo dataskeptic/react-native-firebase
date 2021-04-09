@@ -139,7 +139,8 @@ const AppStack = () => {
   return (
     <Tab.Navigator
       tabBarOptions={{
-        activeTintColor: '#2e64e5',
+        activeTintColor: 'green   ',
+        padding: 30,
       }}>
       <Tab.Screen
         name="Home"
