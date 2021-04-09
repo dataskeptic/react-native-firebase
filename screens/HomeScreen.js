@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 import { Container } from '../styles/FeedStyles';
 import PostCard from '../components/PostCard';
+import firestore from '@react-native-firebase/firestore';
 
 const Posts = [
     {
@@ -62,10 +63,57 @@ const Posts = [
   ];
 
 function HomeScreen () {
+
+  const [posts, setPosts] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+
+    const fetchPosts = async () => {
+      try {
+        const list = [];
+
+        firestore()
+          .collection('posts')
+          .get()
+          .then((querySnapShot) => {
+            // console.log('Total posts ', querySnapShot.size);
+
+            querySnapShot.forEach(doc => {
+              const { userId, post, postImg, postTime, likes, comments } = doc.data();
+              list.push({
+                id: doc.id,
+                userId,
+                userName: 'Test Name',
+                userImg: 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
+                postTime: postTime,
+                post: post,
+                postImg: postImg,
+                liked: false,
+                likes,
+                comments,
+              });
+            })
+          })
+
+          setPosts(list);
+          if(loading){
+            setLoading(false);
+          }
+
+          console.log('Posts: ', list);
+      }
+      catch (err) {
+        console.log(err);
+      }
+    }
+    fetchPosts();
+  }, []);
+
     return (
         <Container>
             <FlatList  
-              data={Posts}
+              data={posts}
               renderItem={({item}) => <PostCard item={item}/>}
               keyExtractor={item => item.id}
               showsVerticalScrollIndicator={false}
