@@ -73,7 +73,7 @@ function HomeScreen () {
       try {
         const list = [];
 
-        firestore()
+        await firestore()
           .collection('posts')
           .get()
           .then((querySnapShot) => {

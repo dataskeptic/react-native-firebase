@@ -74,6 +74,10 @@ const AddPostScreen = () => {
   }
 
   const uploadImage = async () => {
+    if(image == null) {
+      return null;
+    }
+
     const upLoadUri = image;
     let filename = upLoadUri.substring(upLoadUri.lastIndexOf('/') + 1);
 
