@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList } from 'react-native';
+import { Alert, FlatList } from 'react-native';
 import { Container } from '../styles/FeedStyles';
 import PostCard from '../components/PostCard';
 import firestore from '@react-native-firebase/firestore';
@@ -115,7 +115,7 @@ function HomeScreen () {
   const deletePost = (postId) => {
     console.log('Current id: ', postId);
 
-    firestore().collection('post')
+    firestore().collection('posts')
     .doc(postId)
     .get()
     .then(documentSnapshot => {
@@ -130,6 +130,7 @@ function HomeScreen () {
           .delete()
           .then(() => {
             console.log(`${postImg} has been delete!`);
+            deleteFirestoreData(postId);
           })
           .catch((err) => {
             console.log('Error while deleting the image: ', err)
@@ -139,6 +140,20 @@ function HomeScreen () {
     })
   }
 
+  const deleteFirestoreData = (postId) => {
+    firestore()
+    .collection('posts')
+    .doc(postId)
+    .delete()
+    .then(() => {
+      Alert.alert(
+        'Post deleted!!!',
+        'Your post has been deleted successfuly',
+      );
+    })
+    .catch(err => console.log('Error deleting post: ', err));
+  }
+ 
   const listHeader = () => {
     return null;
   } 
