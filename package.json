@@ -20,6 +20,7 @@
     "@react-navigation/native": "^5.9.3",
     "@react-navigation/stack": "^5.14.3",
     "antd-mobile": "^2.3.4",
+    "moment": "^2.29.1",
     "react": "17.0.1",
     "react-native": "0.64.0",
     "react-native-action-button": "^2.8.5",

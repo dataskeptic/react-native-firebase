@@ -15,7 +15,9 @@ import {
         InteractionWrapper,
         Divider
         } from '../styles/FeedStyles';
+
 import { AuthContext } from '../navigation/AuthProvider';
+import moment from 'moment';
 
 const PostCard = ({item, onDelete}) => {
 
@@ -40,14 +42,15 @@ const PostCard = ({item, onDelete}) => {
       } else {
         commentText = 'Comment';
       }
-
+// moment().startOf('hour').fromNow(); 
+// moment(item.postTime.toDate()).fromNow()
     return (
             <Card key={item.id}>
                 <UserInfo>
                     <UserImg source={{uri: item.userImg}}></UserImg>
                     <UserInfoText>
                     <UserName>{item.userName}</UserName>
-                    <PostTime>{item.postTime.toString()}</PostTime>
+                    <PostTime>{moment(item.postTime.toDate()).startOf('hour').fromNow().toString()}</PostTime>
                     </UserInfoText>
                 </UserInfo>
                 <PostText>{item.post}</PostText>
