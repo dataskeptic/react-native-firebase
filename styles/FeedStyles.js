@@ -1,15 +1,16 @@
 import styled from 'styled-components';
 
+
 export const Container = styled.View`
   flex: 1;
   align-items: center;
   background-color: #fff;
-  padding: 20px;
+  padding: 10px;
 `;
 
 export const Card = styled.View`
     background-color: #f8f8f8;
-    width: 100%;
+    width: 320px;
     margin-bottom: 20px;
     border-radius: 10px;
 `;
@@ -42,6 +43,7 @@ export const PostTime = styled.Text`
     font-size: 12px;
     font-family: 'Lato-Regular';
     color: #666;
+    width: 100%;
 `;
 
 export const PostText = styled.Text`

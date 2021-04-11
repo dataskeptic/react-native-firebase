@@ -44,13 +44,14 @@ const PostCard = ({item, onDelete}) => {
       }
 // moment().startOf('hour').fromNow(); 
 // moment(item.postTime.toDate()).fromNow()
+
     return (
             <Card key={item.id}>
                 <UserInfo>
                     <UserImg source={{uri: item.userImg}}></UserImg>
                     <UserInfoText>
                     <UserName>{item.userName}</UserName>
-                    <PostTime>{moment(item.postTime.toDate()).startOf('hour').fromNow().toString()}</PostTime>
+                    <PostTime>{moment(item.postTime.toDate()).fromNow().toString()}</PostTime>
                     </UserInfoText>
                 </UserInfo>
                 <PostText>{item.post}</PostText>

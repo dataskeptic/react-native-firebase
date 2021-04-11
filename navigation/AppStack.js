@@ -69,8 +69,8 @@ const FeedStack = ({navigation}) => (
         title: '',
         headerTitleAlign: 'center',
         headerStyle: {
-          backgroundColor: '#fff',
           shadowColor: '#fff',
+          backgroundColor: '#fff',
           elevation: 0,
         },
         headerBackTitleVisible: false,
