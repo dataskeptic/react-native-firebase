@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import { View,
          Text,
          StyleSheet, 
@@ -10,9 +10,64 @@ import { View,
 import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
+import PostCard from '../components/PostCard';
+
 
 function ProfileScreen() {
-    const {user, logout} = useContext(AuthContext);
+    const { user, logout } = useContext(AuthContext);
+
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [deleted, setDeleted] = useState(false);
+
+    const fetchPosts = async () => {
+        try {
+
+            const list = [];
+
+            await firestore()
+                .collection('posts')
+                .where('userId', '==', user.uid)
+                .orderBy('postTime', 'desc')
+                .get()
+                .then((querySnapShot) => {
+                    // console.log('Total posts ', querySnapShot.size);
+
+                    querySnapShot.forEach(doc => {
+                        const { userId, post, postImg, postTime, likes, comments } = doc.data();
+                        list.push({
+                            id: doc.id,
+                            userId,
+                            userName: 'Test Name',
+                            userImg: 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
+                            postTime: postTime,
+                            post: post,
+                            postImg: postImg,
+                            liked: false,
+                            likes,
+                            comments,
+                        });
+                    })
+                })
+
+            setPosts(list);
+            if (loading) {
+                setLoading(false);
+            }
+
+            console.log('Posts: ', list);
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        fetchPosts();
+    }, []);
+
+    const handleDelete = () => {}
+
     return (
         <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
             <ScrollView 
@@ -50,6 +105,9 @@ function ProfileScreen() {
                         <Text style={styles.userInfoSubTitle}>Following</Text>
                     </View>
                 </View>
+                {posts.map((item) => (
+                    <PostCard key={item.id} item={item} onDele={handleDelete}/>
+                ))}
 
             </ScrollView>
         </SafeAreaView>

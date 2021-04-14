@@ -62,7 +62,27 @@ const FeedStack = ({navigation}) => (
         ),
       }}
     />
-    <Stack.Screen
+    <Stack.Screen 
+      name="HomeProfile" 
+      component={ProfileScreen}
+      options={{
+        title: '',
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: '#fff',
+          shadowColor: '#fff',
+          elevation: 0,
+        },
+        headerBackTitleVisible: false,
+        headerBackImage: () => (
+          <View style={{marginLeft: 15}}>
+            <FontAwesome5 name="arrow-left" size={25} color="#2e64e5" />
+          </View>
+        ),
+      }}
+      />
+
+    {/* { <Stack.Screen
       component={ProfileScreen}
       name="HomeProfile"
       options={{
@@ -79,8 +99,9 @@ const FeedStack = ({navigation}) => (
             <FontAwesome5 name="radiation" size={25} color="#2e64e5" />
           </View>
         ),
-      }}
-    />
+      }}  
+   /> } */}
+   
   </Stack.Navigator>
 );
 

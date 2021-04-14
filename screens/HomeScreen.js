@@ -5,7 +5,7 @@ import PostCard from '../components/PostCard';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 
-function HomeScreen () {
+function HomeScreen ({navigation}) {
 
   const [posts, setPosts] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -135,7 +135,14 @@ function HomeScreen () {
         <Container>
             <FlatList  
               data={posts}
-              renderItem={({item}) => <PostCard item={item} onDelete={handleDelete}/>}
+              renderItem={({item}) => (
+                <PostCard 
+                  item={item} 
+                  onDelete={handleDelete} 
+                  onPress={() => navigation.navigate('HomeProfile', { userId: item.userId })
+                  }
+                />
+              )}
               keyExtractor={item => item.id}
                 ListHeaderComponent={listHeader}
                   ListFooterComponent={listHeader}
