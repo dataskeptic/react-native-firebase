@@ -13,7 +13,7 @@ import firestore from '@react-native-firebase/firestore';
 import PostCard from '../components/PostCard';
 
 
-function ProfileScreen() {
+function ProfileScreen({navigation, route}) {
     const { user, logout } = useContext(AuthContext);
 
     const [posts, setPosts] = useState([]);
@@ -80,16 +80,33 @@ function ProfileScreen() {
                     source={require('../assets/users/user-8.jpg')}
                 />
                 <Text style={styles.userName}>Jenny Doe</Text>
+                <Text>{route.params ? route.params.userId : user.uid}</Text>
                 <Text style={styles.aboutUser}>
                     Here its written whatever shit about the user, like some kind of bio in the profile...
                 </Text>
                 <View style={styles.userBtnWrapper}>
-                    <TouchableOpacity style={styles.userBtn} onPress={() => {}}>
-                        <Text style={styles.userBtnTxt}>Message</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.userBtn} onPress={() => {}}>
-                        <Text style={styles.userBtnTxt}>Follow</Text>
-                    </TouchableOpacity>
+                    {route.params ? (
+                        <>
+                            <TouchableOpacity style={styles.userBtn} onPress={() => { }}>
+                                <Text style={styles.userBtnTxt}>Message</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.userBtn} onPress={() => { }}>
+                                <Text style={styles.userBtnTxt}>Follow</Text>
+                            </TouchableOpacity>
+                        </>
+                    ) : (
+                        <>
+                            <TouchableOpacity style={styles.userBtn} onPress={() => {
+                                navigation.navigate('EditProfile');
+                                }}>
+                                <Text style={styles.userBtnTxt}>Edit</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.userBtn} onPress={() => logout()}>
+                                <Text style={styles.userBtnTxt}>logout</Text>
+                            </TouchableOpacity>
+                        </>
+                    )} 
+                    
                 </View>
                 <View style={styles.userInfoWrapper}>
                     <View style={styles.userInfoItem}>
